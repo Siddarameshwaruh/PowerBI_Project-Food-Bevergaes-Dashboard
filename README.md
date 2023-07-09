@@ -168,39 +168,39 @@ customers?***
 
 - Reasons for choosing brand
 
-	SELECT 
-	    Reasons_for_choosing_brands,
-	    (COUNT(Respondent_ID)/SUM(COUNT(Respondent_ID)) OVER()) * 100 AS respondents_percentage
-	FROM
-	    fact_survey_responses
-	WHERE
-	    current_brands = 'Codex'
-	GROUP BY Reasons_for_choosing_brands
-	ORDER BY respondents_percentage DESC;
+		SELECT 
+		    Reasons_for_choosing_brands,
+		    (COUNT(Respondent_ID)/SUM(COUNT(Respondent_ID)) OVER()) * 100 AS respondents_percentage
+		FROM
+		    fact_survey_responses
+		WHERE
+		    current_brands = 'Codex'
+		GROUP BY Reasons_for_choosing_brands
+		ORDER BY respondents_percentage DESC;
 
 - Ingredients Expected: CodeX
 
-	SELECT Ingredients_expected, (count(Respondent_ID)/SUM(COUNT(Respondent_ID)) OVER()) * 100  AS respondents_percentage
-	FROM fact_survey_responses
-	WHERE current_brands = "Codex"
-	GROUP BY Ingredients_expected
-	ORDER BY respondents_percentage DESC;
+		SELECT Ingredients_expected, (count(Respondent_ID)/SUM(COUNT(Respondent_ID)) OVER()) * 100  AS respondents_percentage
+		FROM fact_survey_responses
+		WHERE current_brands = "Codex"
+		GROUP BY Ingredients_expected
+		ORDER BY respondents_percentage DESC;
 
 - Average taste rating: CodeX
 
-	SELECT 
-	    c.city,
-	    (SELECT 
-	            ROUND(AVG(Taste_experience), 1)
-	        FROM
-	            fact_survey_responses s
-	                INNER JOIN
-	            dim_repondents r ON s.Respondent_ID = r.Respondent_ID
-	        WHERE
-	            s.current_brands = 'CodeX'
-	                AND r.city_ID = c.CIty_ID) AS avg_taste_experience
-	FROM
-	    dim_cities c
+		SELECT 
+		    c.city,
+		    (SELECT 
+		            ROUND(AVG(Taste_experience), 1)
+		        FROM
+		            fact_survey_responses s
+		                INNER JOIN
+		            dim_repondents r ON s.Respondent_ID = r.Respondent_ID
+		        WHERE
+		            s.current_brands = 'CodeX'
+		                AND r.city_ID = c.CIty_ID) AS avg_taste_experience
+		FROM
+		    dim_cities c
 
 
 **6. Purchase Behavior:**
