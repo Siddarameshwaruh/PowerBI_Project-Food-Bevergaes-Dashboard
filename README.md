@@ -277,37 +277,37 @@ limited edition packaging?***
 
 - Reasons for choosing brand: CodeX
 
-	SELECT Reasons_for_choosing_brands, 
-	(COUNT(Respondent_ID)/SUM(COUNT(Respondent_ID)) OVER()) * 100 AS respondents_percentage
-	FROM fact_survey_responses
-	WHERE current_brands = "Codex"
-	GROUP BY Reasons_for_choosing_brands
-	ORDER BY respondents_percentage DESC;
+		SELECT Reasons_for_choosing_brands, 
+		(COUNT(Respondent_ID)/SUM(COUNT(Respondent_ID)) OVER()) * 100 AS respondents_percentage
+		FROM fact_survey_responses
+		WHERE current_brands = "Codex"
+		GROUP BY Reasons_for_choosing_brands
+		ORDER BY respondents_percentage DESC;
 
 - Ingredients expected: CodeX
 
-	SELECT Ingredients_expected, 
-	(COUNT(Respondent_ID)/SUM(COUNT(Respondent_ID)) OVER()) * 100 AS '% respondents'
-	FROM fact_survey_responses
-	WHERE current_brands = "Codex"
-	GROUP BY Ingredients_expected
-	ORDER BY '% respondents' DESC;
+		SELECT Ingredients_expected, 
+		(COUNT(Respondent_ID)/SUM(COUNT(Respondent_ID)) OVER()) * 100 AS '% respondents'
+		FROM fact_survey_responses
+		WHERE current_brands = "Codex"
+		GROUP BY Ingredients_expected
+		ORDER BY '% respondents' DESC;
 
 - Average taste_rating: CodeX
 
-	SELECT 
-	    c.city,
-	    (SELECT 
-	            ROUND(AVG(taste_experience), 1)
-	        FROM
-	            fact_survey_responses s
-	                INNER JOIN
-	            dim_repondents r ON s.respondent_ID = r.Respondent_ID
-	        WHERE
-	            s.current_brands = 'CodeX'
-	                AND r.city_ID = c.city_ID) AS avg_taste_experience
-	FROM
-	    dim_cities c
+		SELECT 
+		    c.city,
+		    (SELECT 
+		            ROUND(AVG(taste_experience), 1)
+		        FROM
+		            fact_survey_responses s
+		                INNER JOIN
+		            dim_repondents r ON s.respondent_ID = r.Respondent_ID
+		        WHERE
+		            s.current_brands = 'CodeX'
+		                AND r.city_ID = c.city_ID) AS avg_taste_experience
+		FROM
+		    dim_cities c
 
 
 
