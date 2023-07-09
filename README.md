@@ -2,7 +2,7 @@
 
 **1. Demographic Insights (examples)**
 
-*****a. Who prefers energy drink more? (male/female/non-binary?)*****
+***a. Who prefers energy drink more? (male/female/non-binary?)***
 
 	SELECT 
 	    gender AS Gender,
@@ -136,6 +136,178 @@ customers?***
 	GROUP BY cte.marketing_channels;
 
 
+**5. Brand Penetration:**
+
+***a. What do people think about our brand? (overall rating)***
+
+	WITH cte AS (
+	SELECT 
+	current_brands,
+	Brand_perception,
+	COUNT(Brand_perception) AS Total_respondents,
+	ROUND(100* COUNT(Brand_perception)/SUM(COUNT(Brand_perception)) OVER(),2) AS Respondents_Percentage
+	FROM
+	fact_survey_responses
+	WHERE
+	current_brands='Codex'
+	GROUP BY
+	Current_brands,
+	Brand_perception
+	)
+	SELECT
+	current_brands,
+	Brand_perception, 
+	Total_Respondents,
+	Respondents_Percentage
+	FROM
+	cte
+	ORDER BY
+	Total_Respondents DESC;
+
+***b. Which cities do we need to focus more on?***
+
+- Reasons for choosing brand
+
+	SELECT 
+	    Reasons_for_choosing_brands,
+	    (COUNT(Respondent_ID)/SUM(COUNT(Respondent_ID)) OVER()) * 100 AS respondents_percentage
+	FROM
+	    fact_survey_responses
+	WHERE
+	    current_brands = 'Codex'
+	GROUP BY Reasons_for_choosing_brands
+	ORDER BY respondents_percentage DESC;
+
+- Ingredients Expected: CodeX
+
+	SELECT Ingredients_expected, (count(Respondent_ID)/SUM(COUNT(Respondent_ID)) OVER()) * 100  AS respondents_percentage
+	FROM fact_survey_responses
+	WHERE current_brands = "Codex"
+	GROUP BY Ingredients_expected
+	ORDER BY respondents_percentage DESC;
+
+- Average taste rating: CodeX
+
+SELECT 
+    c.city,
+    (SELECT 
+            ROUND(AVG(Taste_experience), 1)
+        FROM
+            fact_survey_responses s
+                INNER JOIN
+            dim_repondents r ON s.Respondent_ID = r.Respondent_ID
+        WHERE
+            s.current_brands = 'CodeX'
+                AND r.city_ID = c.CIty_ID) AS avg_taste_experience
+FROM
+    dim_cities c
+
+
+**6. Purchase Behavior:**
+
+***a. Where do respondents prefer to purchase energy drinks?***
+
+	SELECT 
+	    purchase_location AS 'Purchase Location',
+	    ROUND(100 * customer_count / (SELECT 
+	                    SUM(customer_count)
+	                FROM
+	                    (SELECT 
+	                        purchase_location, COUNT(respondent_id) AS customer_count
+	                    FROM
+	                        fact_survey_responses
+	                    GROUP BY purchase_location) AS subquery),
+	            2) AS `Respondents%`
+	FROM
+	    (SELECT 
+	        purchase_location, COUNT(respondent_id) AS customer_count
+	    FROM
+	        fact_survey_responses
+	    GROUP BY purchase_location) AS cte
+	GROUP BY purchase_location;
+
+***b. What are the typical consumption situations for energy drinks among 
+respondents?***
+
+	WITH cte1 as(
+	SELECT DISTINCT Typical_consumption_situations, COUNT(Respondent_ID) AS total_respondents
+	FROM fact_survey_responses
+	GROUP BY Typical_consumption_situations
+	ORDER BY COUNT(Respondent_ID) DESC
+	)
+	SELECT Typical_consumption_situations, ROUND(100*total_respondents/SUM(total_respondents)
+	OVER(),2) AS '% respondents'
+	FROM cte1;
+
+***c. What factors influence respondents' purchase decisions, such as price range and 
+limited edition packaging?***
+
+- Purchase behaviour: Price range
+
+	SELECT DISTINCT
+	    Price_range, COUNT(Respondent_ID) AS total_respondents
+	FROM
+	    fact_survey_responses
+	GROUP BY Price_range
+	ORDER BY total_respondents DESC;
+
+- Purchase behaviour: limited edition packaging 
+
+	SELECT DISTINCT
+	    Limited_edition_packaging,
+	    COUNT(Respondent_ID) AS total_respondents
+	FROM
+	    fact_survey_responses
+	GROUP BY Limited_edition_packaging
+	ORDER BY total_respondents DESC;
+
+- Purchase behaviour: health concerns
+
+	SELECT DISTINCT
+	    Health_concerns, COUNT(Respondent_ID) AS total_respondents
+	FROM
+	    fact_survey_responses
+	GROUP BY Health_concerns
+	ORDER BY total_respondents DESC
+
+**7. Product Development**
+
+***a. Which area of business should we focus more on our product development? 
+(Branding/taste/availability)***
+
+- Reasons for choosing brand: CodeX
+
+	SELECT Reasons_for_choosing_brands, 
+	(COUNT(Respondent_ID)/SUM(COUNT(Respondent_ID)) OVER()) * 100 AS respondents_percentage
+	FROM fact_survey_responses
+	WHERE current_brands = "Codex"
+	GROUP BY Reasons_for_choosing_brands
+	ORDER BY respondents_percentage DESC;
+
+- Ingredients expected: CodeX
+
+	SELECT Ingredients_expected, 
+	(COUNT(Respondent_ID)/SUM(COUNT(Respondent_ID)) OVER()) * 100 AS '% respondents'
+	FROM fact_survey_responses
+	WHERE current_brands = "Codex"
+	GROUP BY Ingredients_expected
+	ORDER BY '% respondents' DESC;
+
+- Average taste_rating: CodeX
+
+	SELECT 
+	    c.city,
+	    (SELECT 
+	            ROUND(AVG(taste_experience), 1)
+	        FROM
+	            fact_survey_responses s
+	                INNER JOIN
+	            dim_repondents r ON s.respondent_ID = r.Respondent_ID
+	        WHERE
+	            s.current_brands = 'CodeX'
+	                AND r.city_ID = c.city_ID) AS avg_taste_experience
+	FROM
+	    dim_cities c
 
 
 
