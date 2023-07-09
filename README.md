@@ -188,19 +188,19 @@ customers?***
 
 - Average taste rating: CodeX
 
-SELECT 
-    c.city,
-    (SELECT 
-            ROUND(AVG(Taste_experience), 1)
-        FROM
-            fact_survey_responses s
-                INNER JOIN
-            dim_repondents r ON s.Respondent_ID = r.Respondent_ID
-        WHERE
-            s.current_brands = 'CodeX'
-                AND r.city_ID = c.CIty_ID) AS avg_taste_experience
-FROM
-    dim_cities c
+	SELECT 
+	    c.city,
+	    (SELECT 
+	            ROUND(AVG(Taste_experience), 1)
+	        FROM
+	            fact_survey_responses s
+	                INNER JOIN
+	            dim_repondents r ON s.Respondent_ID = r.Respondent_ID
+	        WHERE
+	            s.current_brands = 'CodeX'
+	                AND r.city_ID = c.CIty_ID) AS avg_taste_experience
+	FROM
+	    dim_cities c
 
 
 **6. Purchase Behavior:**
