@@ -4,13 +4,13 @@
 
 ***a. Who prefers energy drink more? (male/female/non-binary?)***
 
-SELECT 
-    gender AS Gender,
-    COUNT(respondent_id) AS `Total Respondents`
-FROM
-    dim_repondents
-GROUP BY gender
-ORDER BY COUNT(respondent_id) DESC;
+	SELECT 
+	    gender AS Gender,
+	    COUNT(respondent_id) AS `Total Respondents`
+	FROM
+	    dim_repondents
+	GROUP BY gender
+	ORDER BY COUNT(respondent_id) DESC;
 
 ***b. Which age group prefers energy drinks more?***
 
