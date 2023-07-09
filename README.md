@@ -84,7 +84,8 @@
 	    GROUP BY current_brands
 	    ORDER BY count(respondent_id) DESC
 	    LIMIT 3)
-	SELECT c.current_brands, s.reasons_for_choosing_brands, count(s.reasons_for_choosing_brands) AS number_of_responses 
+	SELECT c.current_brands, s.reasons_for_choosing_brands, 
+        count(s.reasons_for_choosing_brands) AS number_of_responses 
 	FROM cte1 AS c JOIN fact_survey_responses s
 	USING(current_brands)
 	GROUP BY c.current_brands, s.reasons_for_choosing_brands
