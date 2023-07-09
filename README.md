@@ -92,6 +92,50 @@
 	ORDER BY current_brands, s.reasons_for_choosing_brands DESC;
 
 
+**4. Marketing Channels and Brand Awareness:**
+
+***a. Which marketing channel can be used to reach more customers?***
+
+	SELECT c.marketing_channels AS `Marketing Channel`
+	FROM (
+	    SELECT marketing_channels, COUNT(respondent_id) AS count
+	    FROM fact_survey_responses
+	    GROUP BY marketing_channels
+	    ORDER BY count DESC
+	) AS c
+	JOIN (
+	    SELECT MAX(count) AS max_count
+	    FROM (
+	        SELECT marketing_channels, COUNT(respondent_id) AS count
+	        FROM fact_survey_responses
+	        GROUP BY marketing_channels
+	    ) AS subquery
+	) AS c1 ON c.count = c1.max_count;
+
+***b. How effective are different marketing strategies and channels in reaching our 
+customers?***
+
+	SELECT 
+	    cte.marketing_channels,
+	    ROUND(100 * cte.count / (SELECT 
+	                    SUM(count)
+	                FROM
+	                    (SELECT 
+	                        marketing_channels, COUNT(respondent_id) AS count
+	                    FROM
+	                        fact_survey_responses
+	                    GROUP BY marketing_channels) AS subquery),
+	            2) AS `Effectiveness %`
+	FROM
+	    (SELECT 
+	        marketing_channels, COUNT(respondent_id) AS count
+	    FROM
+	        fact_survey_responses
+	    GROUP BY marketing_channels) AS cte
+	GROUP BY cte.marketing_channels;
+
+
+
 
 
 
