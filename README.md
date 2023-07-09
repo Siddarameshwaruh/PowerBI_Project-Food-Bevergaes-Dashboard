@@ -244,31 +244,31 @@ limited edition packaging?***
 
 - Purchase behaviour: Price range
 
-	SELECT DISTINCT
-	    Price_range, COUNT(Respondent_ID) AS total_respondents
-	FROM
-	    fact_survey_responses
-	GROUP BY Price_range
-	ORDER BY total_respondents DESC;
+		SELECT DISTINCT
+		    Price_range, COUNT(Respondent_ID) AS total_respondents
+		FROM
+		    fact_survey_responses
+		GROUP BY Price_range
+		ORDER BY total_respondents DESC;
 
 - Purchase behaviour: limited edition packaging 
 
-	SELECT DISTINCT
-	    Limited_edition_packaging,
-	    COUNT(Respondent_ID) AS total_respondents
-	FROM
-	    fact_survey_responses
-	GROUP BY Limited_edition_packaging
-	ORDER BY total_respondents DESC;
+		SELECT DISTINCT
+		    Limited_edition_packaging,
+		    COUNT(Respondent_ID) AS total_respondents
+		FROM
+		    fact_survey_responses
+		GROUP BY Limited_edition_packaging
+		ORDER BY total_respondents DESC;
 
 - Purchase behaviour: health concerns
 
-	SELECT DISTINCT
-	    Health_concerns, COUNT(Respondent_ID) AS total_respondents
-	FROM
-	    fact_survey_responses
-	GROUP BY Health_concerns
-	ORDER BY total_respondents DESC
+		SELECT DISTINCT
+		    Health_concerns, COUNT(Respondent_ID) AS total_respondents
+		FROM
+		    fact_survey_responses
+		GROUP BY Health_concerns
+		ORDER BY total_respondents DESC
 
 **7. Product Development**
 
