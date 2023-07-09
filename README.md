@@ -1,5 +1,14 @@
 # PowerBI_Project-Food-Bevergaes-Dashboard
 
+## Data Model
+
+![2023-07-09T12_27_20](https://github.com/Siddarameshwaruh/PowerBI_Project-Food-Bevergaes-Dashboard/assets/127327782/e0e79000-97f4-49de-b6c6-e4d92d43a4a5)
+
+## Dashboard
+
+![2023-07-08T20_08_34](https://github.com/Siddarameshwaruh/PowerBI_Project-Food-Bevergaes-Dashboard/assets/127327782/eabed5d7-bcb9-46f1-b90f-e761a805b0e9)
+
+
 **1. Demographic Insights (examples)**
 
 ***a. Who prefers energy drink more? (male/female/non-binary?)***
