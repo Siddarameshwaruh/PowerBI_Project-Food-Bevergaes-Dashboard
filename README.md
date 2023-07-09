@@ -2,7 +2,7 @@
 
 **1. Demographic Insights (examples)**
 
-***a. Who prefers energy drink more? (male/female/non-binary?)***
+****a. Who prefers energy drink more? (male/female/non-binary?)****
 
 	SELECT 
 	    gender AS Gender,
